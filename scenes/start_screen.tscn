@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://bq76gw1qlyve7"]
+[gd_scene load_steps=6 format=3 uid="uid://bq76gw1qlyve7"]
 
+[ext_resource type="Script" path="res://scenes/start_screen.gd" id="1_ka5y1"]
 [ext_resource type="FontFile" uid="uid://ch103gi2tob72" path="res://assets/font/andina.ttf" id="1_odb52"]
 [ext_resource type="Texture2D" uid="uid://m4ub6oll4ikv" path="res://assets/Invaders/Invader3-1.png" id="2_reirf"]
 [ext_resource type="Texture2D" uid="uid://bn227mp3yqjlo" path="res://assets/Invaders/Invader2-1.png" id="3_h67qj"]
 [ext_resource type="Texture2D" uid="uid://dy2h5dklc8h7p" path="res://assets/Invaders/Invader1-1.png" id="4_kox1y"]
 
 [node name="StartScreen" type="CanvasLayer"]
+script = ExtResource("1_ka5y1")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 15
@@ -44,13 +46,15 @@ theme_override_constants/separation = 16
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/Center/Items/Invaders/Invader1"]
+[node name="TextureRect1" type="TextureRect" parent="MarginContainer/Center/Items/Invaders/Invader1"]
+unique_name_in_owner = true
 texture_filter = 1
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 texture = ExtResource("2_reirf")
 
-[node name="Points" type="Label" parent="MarginContainer/Center/Items/Invaders/Invader1"]
+[node name="Points1" type="Label" parent="MarginContainer/Center/Items/Invaders/Invader1"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_odb52")
 theme_override_font_sizes/font_size = 30
@@ -62,13 +66,15 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/Center/Items/Invaders/Invader2"]
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/Center/Items/Invaders/Invader2"]
+unique_name_in_owner = true
 texture_filter = 1
 custom_minimum_size = Vector2(80, 60)
 layout_mode = 2
 texture = ExtResource("3_h67qj")
 
-[node name="Points" type="Label" parent="MarginContainer/Center/Items/Invaders/Invader2"]
+[node name="Points2" type="Label" parent="MarginContainer/Center/Items/Invaders/Invader2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_odb52")
 theme_override_font_sizes/font_size = 30
@@ -80,22 +86,32 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/Center/Items/Invaders/Invader3"]
+[node name="TextureRect3" type="TextureRect" parent="MarginContainer/Center/Items/Invaders/Invader3"]
+unique_name_in_owner = true
 texture_filter = 1
 custom_minimum_size = Vector2(69, 60)
 layout_mode = 2
 texture = ExtResource("4_kox1y")
 
-[node name="Points" type="Label" parent="MarginContainer/Center/Items/Invaders/Invader3"]
+[node name="Points3" type="Label" parent="MarginContainer/Center/Items/Invaders/Invader3"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_odb52")
 theme_override_font_sizes/font_size = 30
 text = "40p"
 
 [node name="Button" type="Button" parent="MarginContainer/Center/Items"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("1_odb52")
 theme_override_font_sizes/font_size = 30
 text = "PLAY"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.75
+autostart = true
+
+[connection signal="pressed" from="MarginContainer/Center/Items/Button" to="." method="_load_game"]
+[connection signal="timeout" from="Timer" to="." method="_show_next_control"]
