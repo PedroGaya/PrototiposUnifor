@@ -1,12 +1,37 @@
-[gd_scene load_steps=6 format=3 uid="uid://tcsac4xojoro"]
+[gd_scene load_steps=11 format=3 uid="uid://tcsac4xojoro"]
 
 [ext_resource type="Texture2D" uid="uid://dt0af4o7yh41a" path="res://assets/Player/Player.png" id="1_6jswa"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_e6ksa"]
 [ext_resource type="Script" path="res://scenes/Shooting.gd" id="3_6vgav"]
 [ext_resource type="PackedScene" uid="uid://xbmbbvaopsuu" path="res://scenes/laser.tscn" id="4_48k82"]
+[ext_resource type="Texture2D" uid="uid://bi2vdab3slwgf" path="res://assets/Player/Player-explosion1.png" id="5_78r55"]
+[ext_resource type="Texture2D" uid="uid://b4mk25ro2nqtu" path="res://assets/Player/Player-explosion2.png" id="6_kr3ct"]
+[ext_resource type="Texture2D" uid="uid://dsg2krqtkgnca" path="res://assets/Player/Player-explosion3.png" id="7_tnih2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7y4gl"]
 size = Vector2(12, 5)
+
+[sub_resource type="Animation" id="Animation_bq8di"]
+resource_name = "destroy"
+length = 2.25
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("5_78r55"), ExtResource("6_kr3ct"), ExtResource("7_tnih2"), ExtResource("5_78r55"), ExtResource("6_kr3ct"), ExtResource("7_tnih2"), ExtResource("5_78r55"), ExtResource("6_kr3ct"), ExtResource("7_tnih2")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5ifif"]
+_data = {
+"destroy": SubResource("Animation_bq8di")
+}
 
 [node name="Player" type="Area2D"]
 script = ExtResource("1_e6ksa")
@@ -22,3 +47,8 @@ shape = SubResource("RectangleShape2D_7y4gl")
 [node name="Shooting" type="Node2D" parent="."]
 script = ExtResource("3_6vgav")
 laser_scene = ExtResource("4_48k82")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_5ifif")
+}

@@ -13,7 +13,10 @@ const INVADERS_POS_Y_INC = 20
 
 var move_direction = Vector2(1, 0)
 var invader_scene = preload("res://scenes/invader.tscn")
-@onready var timer = $Timer
+var invader_shot_scene = preload("res://scenes/invader_shot.tscn")
+
+@onready var move_timer = $MoveTimer
+@onready var shot_timer = $ShotTimer
 
 func _ready():
 	var invader_config
@@ -44,7 +47,7 @@ func spawn_invader(invader_config, spawn_pos):
 	invader.global_position = spawn_pos
 	add_child(invader)
 
-func _on_timer_timeout():
+func _on_move_timer_timeout():
 	var start_bound
 	var end_bound
 	var screen = get_viewport().get_visible_rect()
@@ -60,3 +63,9 @@ func _on_timer_timeout():
 	else:
 		position.x += INVADERS_POS_X_INC * move_direction.x
 		move_direction.y = 0
+
+func _on_shot_timer_timeout():
+	var random_child_pos = get_children().filter(func (c): return c as Invader).map(func (invader): return invader.global_position).pick_random()
+	var invader_shot = invader_shot_scene.instantiate() as InvaderShot
+	get_tree().root.add_child(invader_shot)
+	invader_shot.global_position = random_child_pos
