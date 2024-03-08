@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://tcsac4xojoro"]
+[gd_scene load_steps=6 format=3 uid="uid://tcsac4xojoro"]
 
 [ext_resource type="Texture2D" uid="uid://dt0af4o7yh41a" path="res://assets/Player/Player.png" id="1_6jswa"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_e6ksa"]
 [ext_resource type="Script" path="res://scenes/Shooting.gd" id="3_6vgav"]
+[ext_resource type="PackedScene" uid="uid://xbmbbvaopsuu" path="res://scenes/laser.tscn" id="4_48k82"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7y4gl"]
 size = Vector2(12, 5)
@@ -20,3 +21,4 @@ shape = SubResource("RectangleShape2D_7y4gl")
 
 [node name="Shooting" type="Node2D" parent="."]
 script = ExtResource("3_6vgav")
+laser_scene = ExtResource("4_48k82")

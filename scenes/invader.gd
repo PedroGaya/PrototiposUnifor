@@ -4,7 +4,7 @@ class_name Invader
 
 @onready var sprite_2d = $Sprite2D
 @onready var animation_player = $AnimationPlayer
-var config: Resource
+var config: InvaderResource
 
 func _ready():
 	sprite_2d.texture = config.sprite

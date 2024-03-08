@@ -7,6 +7,8 @@
 size = Vector2(2, 6.5)
 
 [node name="Laser" type="Area2D"]
+collision_layer = 2
+collision_mask = 0
 script = ExtResource("1_ylqsq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

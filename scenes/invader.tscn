@@ -13,6 +13,22 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jppak"]
 size = Vector2(9.5, 8.625)
 
+[sub_resource type="Animation" id="Animation_iw14y"]
+resource_name = "destroy"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("7_50kd7"), ExtResource("8_gmqax")]
+}
+
 [sub_resource type="Animation" id="Animation_gqh38"]
 resource_name = "move_1"
 loop_mode = 1
@@ -61,22 +77,6 @@ tracks/0/keys = {
 "values": [ExtResource("5_syo8l"), ExtResource("6_wykij")]
 }
 
-[sub_resource type="Animation" id="Animation_iw14y"]
-resource_name = "destroy"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [ExtResource("7_50kd7"), ExtResource("8_gmqax")]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_r5qs4"]
 _data = {
 "destroy": SubResource("Animation_iw14y"),
@@ -93,7 +93,7 @@ script = ExtResource("1_4qnhk")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = ExtResource("5_syo8l")
+texture = ExtResource("1_vdb4k")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_jppak")
