@@ -1,7 +1,7 @@
 extends Area2D
 
-func _ready():
-	pass
+class_name Laser
+@export var speed = 300
 
 func _process(delta):
-	pass
+	position.y -= speed * delta

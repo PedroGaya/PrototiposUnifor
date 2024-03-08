@@ -36,6 +36,15 @@ shoot={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="player"
+2d_physics/layer_2="laser"
+2d_physics/layer_3="invader"
+2d_physics/layer_4="invader_projectile"
+2d_physics/layer_5="bunker"
+2d_physics/layer_6="wall"
+
 [rendering]
 
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)

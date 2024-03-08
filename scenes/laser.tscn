@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scenes/laser.gd" id="1_ylqsq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_84kc4"]
-size = Vector2(2, 8)
+size = Vector2(2, 6.5)
 
 [node name="Laser" type="Area2D"]
 script = ExtResource("1_ylqsq")
