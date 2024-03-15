@@ -19,6 +19,10 @@ var points = 0
 @onready var life_manager = $"../LifeManager" as LifeManager
 @onready var chain_timer = $"Timer"
 
+@export var overflow_points = 10000
+@export var ufo_points = 5000
+@export var absorb_points = 500
+
 var chain: Array[int] = []
 var multiplier: int = 1
 
@@ -48,8 +52,8 @@ func _on_timer_timeout():
 	
 	if multiplier % 10 == 0:
 		if life_manager.lives == 3:
-			points += 1000
-			on_points_change.emit(1000)
+			points += overflow_points
+			on_points_change.emit(overflow_points)
 		else:
 			on_life_gain.emit()
 	
@@ -57,7 +61,7 @@ func _on_timer_timeout():
 	on_multiplier_increase.emit(multiplier)
 
 
-func _on_life_manager_life_lost(lifes_left):
+func _on_life_manager_life_lost(_lifes_left):
 	chain = []
 	multiplier = 1
 	
@@ -66,12 +70,17 @@ func _on_life_manager_life_lost(lifes_left):
 
 
 func _on_ufo_spawner_on_ufo_destroyed():
-	points += 5000
+	points += ufo_points
 	multiplier += 1
 	
 	if multiplier % 10 == 0 and life_manager.lives < 3:
 			on_life_gain.emit()
 	
-	on_points_change.emit(5000)
+	on_points_change.emit(ufo_points)
 	on_points_increased.emit(points)
 	on_multiplier_increase.emit(multiplier)
+
+func _on_player_absorbed_shot():
+	points += absorb_points
+	on_points_change.emit(absorb_points)
+	on_points_increased.emit(points)

@@ -21,6 +21,10 @@ var invader_shot_scene = preload("res://scenes/invader_shot.tscn")
 
 @onready var move_timer = $MoveTimer
 @onready var shot_timer = $ShotTimer
+@onready var form_manager = $"../FormManager"
+@onready var ufo_spawner = $"../UfoSpawner"
+
+var hard_mode = false
 
 var invader_destroyed_count = 0
 var invader_total_count = ROWS * COLS
@@ -73,21 +77,46 @@ func _on_move_timer_timeout():
 		move_direction.y = 0
 
 func _on_shot_timer_timeout():
-	var random_child_pos = get_children().filter(func (c): return c as Invader).map(func (invader): return invader.global_position).pick_random()
+	var random_child: Invader = get_children().filter(func (c): return c as Invader).pick_random()
+	var random_child_pos = random_child.global_position
+	
 	var invader_shot = invader_shot_scene.instantiate() as InvaderShot
+	var invader_points = random_child.config.points
+	var player_points = form_manager.form_points
+	
+	if (invader_total_count - invader_destroyed_count < 10):
+		invader_shot.is_safe = false
+		var projectile_sprite = invader_shot.get_node("Sprite2D") as Sprite2D
+		projectile_sprite.modulate = Color(0.62, 0.2, 0.2, 1)
+		if not hard_mode:
+			start_hard_mode()
+	elif (form_manager.is_player_transformed and invader_points == player_points):
+		invader_shot.is_safe = true
+		var projectile_sprite = invader_shot.get_node("Sprite2D") as Sprite2D
+		projectile_sprite.modulate = Color(0.2, 0.62, 0.2, 1)
+	
 	get_tree().root.add_child(invader_shot)
 	invader_shot.global_position = random_child_pos
 
 func _on_invader_destroyed(points: int):
-	invader_destroyed.emit(points)
+	var points_gained = points
+	
+	if form_manager.is_player_transformed and points == form_manager.form_points:
+		points_gained += points
+	
+	invader_destroyed.emit(points_gained)
 	invader_destroyed_count += 1
 	if invader_destroyed_count == invader_total_count:
 		game_won.emit()
 		shot_timer.stop()
 		move_timer.stop()
 
-
 func _on_bottom_wall_area_entered(_area):
 	game_lost.emit()
 	move_timer.stop()
 	move_direction = 0
+
+func start_hard_mode():
+	shot_timer.wait_time = 0.7
+	move_timer.wait_time = 0.1
+	ufo_spawner.start_hard_mode()

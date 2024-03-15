@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ci6sdhea0eur1"]
+[gd_scene load_steps=12 format=3 uid="uid://ci6sdhea0eur1"]
 
 [ext_resource type="PackedScene" uid="uid://tcsac4xojoro" path="res://scenes/player.tscn" id="1_en4h7"]
 [ext_resource type="PackedScene" uid="uid://dlqh8knny338i" path="res://scenes/invader_spawner.tscn" id="2_tmyk1"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dagftjqqjrnnu" path="res://scenes/bunker.tscn" id="6_54rrr"]
 [ext_resource type="Script" path="res://scenes/LifeManager.gd" id="7_m06nd"]
 [ext_resource type="Script" path="res://scenes/PointsCounter.gd" id="8_8mokc"]
+[ext_resource type="Script" path="res://scenes/FormManager.gd" id="9_3les7"]
 [ext_resource type="PackedScene" uid="uid://cqk4uagr1dfqu" path="res://scenes/ui.tscn" id="9_shy7r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_egc8e"]
@@ -30,6 +31,8 @@ script = ExtResource("4_n2uyu")
 
 [node name="SpawnTimer" type="Timer" parent="UfoSpawner"]
 script = ExtResource("4_nhwvp")
+min_timer = 4.0
+max_timer = 6.0
 
 [node name="Bunker" parent="." instance=ExtResource("6_54rrr")]
 position = Vector2(-376, 174)
@@ -47,6 +50,14 @@ scale = Vector2(4, 4)
 position = Vector2(376, 174)
 scale = Vector2(4, 4)
 
+[node name="BottomWall" type="Area2D" parent="."]
+position = Vector2(0, 250)
+collision_layer = 32
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomWall"]
+shape = SubResource("RectangleShape2D_egc8e")
+
 [node name="LifeManager" type="Node" parent="."]
 script = ExtResource("7_m06nd")
 
@@ -57,19 +68,17 @@ script = ExtResource("8_8mokc")
 wait_time = 0.5
 one_shot = true
 
-[node name="BottomWall" type="Area2D" parent="."]
-position = Vector2(0, 250)
-collision_layer = 32
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomWall"]
-shape = SubResource("RectangleShape2D_egc8e")
+[node name="FormManager" type="Node" parent="."]
+script = ExtResource("9_3les7")
 
 [node name="UI" parent="." instance=ExtResource("9_shy7r")]
 
+[connection signal="absorbed_shot" from="Player" to="PointsCounter" method="_on_player_absorbed_shot"]
+[connection signal="cycle" from="Player" to="FormManager" method="_on_player_cycle"]
+[connection signal="reset_form" from="Player" to="FormManager" method="_on_player_reset_form"]
 [connection signal="on_ufo_destroyed" from="UfoSpawner" to="PointsCounter" method="_on_ufo_spawner_on_ufo_destroyed"]
 [connection signal="timeout" from="UfoSpawner/SpawnTimer" to="UfoSpawner" method="_on_spawn_timer_timeout"]
+[connection signal="area_entered" from="BottomWall" to="InvaderSpawner" method="_on_bottom_wall_area_entered"]
 [connection signal="life_lost" from="LifeManager" to="PointsCounter" method="_on_life_manager_life_lost"]
 [connection signal="on_life_gain" from="PointsCounter" to="LifeManager" method="_on_points_counter_on_life_gain"]
 [connection signal="timeout" from="PointsCounter/Timer" to="PointsCounter" method="_on_timer_timeout"]
-[connection signal="area_entered" from="BottomWall" to="InvaderSpawner" method="_on_bottom_wall_area_entered"]

@@ -3,6 +3,9 @@ extends Area2D
 class_name Player
 
 signal player_destroyed
+signal cycle(form: int)
+signal reset_form
+signal absorbed_shot
 
 @export var speed = 200
 var direction = Vector2.ZERO
@@ -36,16 +39,20 @@ func _ready():
 	
 	start_bound = (camera.position.x - screen.size.x) / 2
 	end_bound = (camera.position.x + screen.size.x) / 2
+	
+	reset_form.emit()
 
 func _input(_event):
 	if Input.is_action_just_pressed("cycle"):
 		is_transformed = true
 		current_invader = (current_invader + 1) % 3
 		sprite.texture = invader_textures[current_invader]
+		cycle.emit(current_invader)
 	if Input.is_action_just_pressed("reset_form"):
 		is_transformed = false
 		current_invader = 0
 		sprite.texture = player_texture
+		reset_form.emit()
 
 func _process(delta):
 	var input = Input.get_axis("left", "right")
@@ -66,9 +73,12 @@ func _process(delta):
 		
 	position.x += delta_movement
 
-func on_player_destroyed():
-	speed = 0
-	animation_player.play("destroy")
+func on_player_hit(safe):
+	if not safe:
+		speed = 0
+		animation_player.play("destroy")
+	else:
+		absorbed_shot.emit()
 
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "destroy":
