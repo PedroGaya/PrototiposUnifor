@@ -9,3 +9,9 @@ Por favor, não fode com a minha branch, que eu não quero ficar clonando o remo
 Valeu!
 
 \- Pedro Gaya
+
+# Ikaruga Invaders
+
+Essa branch contém a variação do jogo base baseada em Ikaruga, incluindo:
+-  Chains e nova pontuação
+-  Polaridade
