@@ -87,7 +87,7 @@ func _on_invader_destroyed(points: int):
 		move_timer.stop()
 
 
-func _on_bottom_wall_area_entered(area):
+func _on_bottom_wall_area_entered(_area):
 	game_lost.emit()
 	move_timer.stop()
 	move_direction = 0

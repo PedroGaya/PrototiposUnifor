@@ -37,7 +37,7 @@ func _ready():
 	start_bound = (camera.position.x - screen.size.x) / 2
 	end_bound = (camera.position.x + screen.size.x) / 2
 
-func _input(event):
+func _input(_event):
 	if Input.is_action_just_pressed("cycle"):
 		is_transformed = true
 		current_invader = (current_invader + 1) % 3

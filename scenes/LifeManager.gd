@@ -16,6 +16,7 @@ func _player_lives():
 	lives -= 1
 	life_lost.emit(lives)
 	if lives != 0:
+		@warning_ignore("shadowed_variable")
 		var player = player_scene.instantiate() as Player
 		player.global_position = Vector2(0, 302)
 		player.player_destroyed.connect(_player_lives)

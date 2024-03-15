@@ -76,8 +76,8 @@ func _on_chain_increase(chain):
 func _on_chain_reset():
 	chain_label.text = 'CHAIN = %d' % 0
 func _on_multiplier_increase(multiplier):
-	multiplier_label.text = 'MULTI = %d' % multiplier
+	multiplier_label.text = 'MULTI = X%d' % multiplier
 func _on_multiplier_reset():
-	multiplier_label.text = 'MULTI = %d' % 0
+	multiplier_label.text = 'MULTI = X%d' % 1
 func _on_points_change(amount):
 	points_change.text = "(+%d)" % amount
