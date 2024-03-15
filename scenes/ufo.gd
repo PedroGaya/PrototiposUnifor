@@ -2,6 +2,8 @@ extends Area2D
 
 class_name Ufo
 
+signal on_ufo_destroyed
+
 @export var speed = 100
 @onready var sprite_2d = $Sprite2D
 @onready var ufo_shooting = $UfoShooting
@@ -20,4 +22,5 @@ func _on_area_entered(area):
 		speed = 0
 		sprite_2d.texture = explosion_texture
 		await get_tree().create_timer(1).timeout
+		on_ufo_destroyed.emit()
 		queue_free()

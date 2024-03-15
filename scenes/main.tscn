@@ -53,6 +53,10 @@ script = ExtResource("7_m06nd")
 [node name="PointsCounter" type="Node" parent="."]
 script = ExtResource("8_8mokc")
 
+[node name="Timer" type="Timer" parent="PointsCounter"]
+wait_time = 0.5
+one_shot = true
+
 [node name="BottomWall" type="Area2D" parent="."]
 position = Vector2(0, 250)
 collision_layer = 32
@@ -63,5 +67,9 @@ shape = SubResource("RectangleShape2D_egc8e")
 
 [node name="UI" parent="." instance=ExtResource("9_shy7r")]
 
+[connection signal="on_ufo_destroyed" from="UfoSpawner" to="PointsCounter" method="_on_ufo_spawner_on_ufo_destroyed"]
 [connection signal="timeout" from="UfoSpawner/SpawnTimer" to="UfoSpawner" method="_on_spawn_timer_timeout"]
+[connection signal="life_lost" from="LifeManager" to="PointsCounter" method="_on_life_manager_life_lost"]
+[connection signal="on_life_gain" from="PointsCounter" to="LifeManager" method="_on_points_counter_on_life_gain"]
+[connection signal="timeout" from="PointsCounter/Timer" to="PointsCounter" method="_on_timer_timeout"]
 [connection signal="area_entered" from="BottomWall" to="InvaderSpawner" method="_on_bottom_wall_area_entered"]
