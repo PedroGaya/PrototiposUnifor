@@ -42,7 +42,8 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/GameOver"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/GameOver/VBoxContainer"]
+[node name="GameOverLabel" type="Label" parent="MarginContainer/GameOver/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_ak3uv")
@@ -51,9 +52,12 @@ text = "GAME OVER"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="MarginContainer/GameOver/VBoxContainer"]
+[node name="GameOverButton" type="Button" parent="MarginContainer/GameOver/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_ak3uv")
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_01k40")
 text = "restart"
+
+[connection signal="pressed" from="MarginContainer/GameOver/VBoxContainer/GameOverButton" to="." method="_on_button_pressed"]
