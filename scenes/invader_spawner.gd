@@ -2,6 +2,10 @@ extends Node2D
 
 class_name InvaderSpawner 
 
+signal invader_destroyed(points: int)
+signal game_won
+signal game_lost
+
 const ROWS = 5
 const COLS = 11
 const HORIZONTAL_SPACING = 32
@@ -17,6 +21,9 @@ var invader_shot_scene = preload("res://scenes/invader_shot.tscn")
 
 @onready var move_timer = $MoveTimer
 @onready var shot_timer = $ShotTimer
+
+var invader_destroyed_count = 0
+var invader_total_count = ROWS * COLS
 
 func _ready():
 	var invader_config
@@ -45,6 +52,7 @@ func spawn_invader(invader_config, spawn_pos):
 	var invader = invader_scene.instantiate() as Invader
 	invader.config = invader_config
 	invader.global_position = spawn_pos
+	invader.invader_destroyed.connect(_on_invader_destroyed)
 	add_child(invader)
 
 func _on_move_timer_timeout():
@@ -69,3 +77,17 @@ func _on_shot_timer_timeout():
 	var invader_shot = invader_shot_scene.instantiate() as InvaderShot
 	get_tree().root.add_child(invader_shot)
 	invader_shot.global_position = random_child_pos
+
+func _on_invader_destroyed(points: int):
+	invader_destroyed.emit(points)
+	invader_destroyed_count += 1
+	if invader_destroyed_count == invader_total_count:
+		game_won.emit()
+		shot_timer.stop()
+		move_timer.stop()
+
+
+func _on_bottom_wall_area_entered(area):
+	game_lost.emit()
+	move_timer.stop()
+	move_direction = 0
